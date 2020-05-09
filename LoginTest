@@ -1,0 +1,65 @@
+package test;
+
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+import java.util.concurrent.TimeUnit;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.By;
+
+public class LoginTest {
+
+	@BeforeMethod
+
+	public void launchBrowser() throws Exception {
+		
+		
+		//options = Selenium::WebDriver::Firefox::Options.new(args: ['--host=127.0.0.1'])
+		//driver = Selenium::WebDriver.for :firefox, options: options
+		System.setProperty("webdriver.chrome.driver","\\C:\\W2020\\techfios-test2\\Driver\\chromedriver.exe");
+		//Thread.sleep(5000);
+		
+	
+		// Creating web driver object
+		WebDriver driver = new ChromeDriver();
+
+		// control window size
+		driver.manage().window().maximize();
+		//driver.manage()deleteAllCookies();
+		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+
+		// go to the link
+	    driver.get("http://techfios.com/test/billing/?ng=admin/");
+		//Thread.sleep(6000);
+		driver.manage().timeouts().implicitlyWait(6, TimeUnit.SECONDS);
+		
+		//driver.findElement(By.xpath("//select[@id='country')]"));
+	}
+		@Test(priority = 1)		
+		driver.findElement(By.xpath("//input[@placeholder='Email Address']"))).sendKeys("techfiosdemo@gmail.com");
+		driver.manage().timeouts().implicitlyWait(6, TimeUnit.SECONDS);
+		driver.findElement(By.xpath("//input[@type='password']")).sendKeys("abc123");
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		driver.findElement(By.xpath("//button[contains(text(), 'Sign')]")).click();
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		driver.findElement(By.xpath("//button[contains(text(), 'login')]")).click();
+		
+		}
+
+	@Test
+	public void invalidUsersShouldNotBeAbleToLogin() throws InterruptedException {
+		WebDriver driver = null;
+		driver.findElement(By.xpath("//input[@placeholder='Email Address']")).sendKeys("techfiosdemo@gmail.com");
+		driver.findElement(By.xpath("//input[@type='password']")).sendKeys("sfdgdfgdfgdg");
+		driver.findElement(By.xpath("//button[contains(text(), 'Sign')]")).click();
+		By ALERT_MSG_LOCATOR = By.xpath("//div[@class='alert alert-danger fade in']");
+		waitForElement(driver, 10, ALERT_MSG_LOCATOR);
+	}
+
+	private void waitForElement(WebDriver driver, int i, By aLERT_MSG_LOCATOR) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}
